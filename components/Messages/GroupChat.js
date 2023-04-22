@@ -5,7 +5,7 @@ import { useState } from 'react';
 import MyMessage from '@/components/Messages/MyMessage';
 import YourMessage from '@/components/Messages/YourMessage';
 export default function GroupChat(props) {
-    // console.log(props.id)
+    console.log(props.id)
     const[message,setmessage] = useState();
     const[user,setUser]=useState();
     const[messageList,setMessageList]=useState([]);
@@ -26,7 +26,7 @@ export default function GroupChat(props) {
             console.log(error)
         }else{
             setMessageList(Chat_Messages)
-            // console.log(Chat_Messages)
+            console.log(Chat_Messages)
         } 
     }
     async function addMessage(e){

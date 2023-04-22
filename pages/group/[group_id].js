@@ -9,7 +9,10 @@ export default function group_id() {
     return(
         <div className='flex'>
             <Sidebar/>
-        <GroupChat id={id}></GroupChat>
+            <div className=' overflow-y-scroll w-full h-screen'>
+                        <GroupChat id={id}></GroupChat>
+            </div>
+
         </div>
     )
 }
