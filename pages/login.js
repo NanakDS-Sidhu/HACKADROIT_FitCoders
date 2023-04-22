@@ -30,7 +30,7 @@ const login = () => {
   useEffect(()=> {
     const getUserSessionDetails = async () => {
       const { data, error } = await supabase.auth.getSession()
-      console.log(data)
+      // console.log(data)
       if(data.session == null){
         router.push("/login")
       }else{

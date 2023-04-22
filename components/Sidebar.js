@@ -5,7 +5,6 @@ import supabase from '@/config/SupabaseConfig';
 
 const Sidebar = () => {
   const [user1,setUser1] = useState("");
-
   async function userFetch(){
     const {data: {user}} = await supabase.auth.getUser()
     setUser1(user)
@@ -13,8 +12,10 @@ const Sidebar = () => {
 
   useEffect(()=>{
     userFetch();
-  })
+  },[])
   const router = useRouter()
+  // console.log(router)
+
   const handleLogout = async () => {
     
     const { error } = await supabase.auth.signOut();
@@ -57,7 +58,7 @@ const Sidebar = () => {
           </div>
           <div id="menu" class="flex flex-col px-4 space-y-2">
             <a
-              href=""
+              href={`/profile/${user1.id}`}
               class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out"
             >
               <svg
@@ -73,7 +74,7 @@ const Sidebar = () => {
               <span class="">Dashboard</span>
             </a>
             <a
-              href={"/profile/"+user1.toString()}
+              href={`/group/${router.query.group_id}`}
               class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
             >
               <svg
@@ -94,7 +95,7 @@ const Sidebar = () => {
             
             
             <a
-              href=""
+              href={`/profile/${user1.id}/editprofile`}
               class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
             >
               <svg
@@ -109,13 +110,7 @@ const Sidebar = () => {
               </svg>
               <span class="">Profile</span>
             </a>
-            <a
-              href="/profile"
-              class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
-            >
-              
-              <span class="">Log Out</span>
-            </a>
+
             <button onClick={handleLogout}>
             {/* <a
               href=""
