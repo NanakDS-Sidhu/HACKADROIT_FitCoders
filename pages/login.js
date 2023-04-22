@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import supabase from "@/config/SupabaseConfig";
 import { useRouter } from "next/router";
-
-
+import { useSession} from '@supabase/auth-helpers-react'
 
 const login = () => {
-  const router= useRouter();
+  const router= useRouter(); 
+  const [userInfo, setUserInfo] = useState(null)
+  
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -21,9 +22,25 @@ const login = () => {
       console.log(error)
     }else{
       console.log(data)
-      router.push("/profile/"+data.user.id.toString())
+      setUserInfo(data.id)
+      router.replace("/profile/"+data.user.id.toString())
     }
   }
+
+  useEffect(()=> {
+    const getUserSessionDetails = async () => {
+      const { data, error } = await supabase.auth.getSession()
+      console.log(data)
+      if(data.session == null){
+        router.push("/login")
+      }else{
+        router.push(`/profile/${userInfo}`)
+      }
+    }
+
+    getUserSessionDetails();
+  },[])
+  
 
   return (
     <>
