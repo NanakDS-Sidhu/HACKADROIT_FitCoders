@@ -62,7 +62,8 @@ export default function GroupChat(props) {
         .subscribe()
 
  return (
-    <div>
+    <div className='w-full'>
+       
         {messageList.map((message)=>{
             if(user.id==message.User_id){
                 return(
@@ -87,6 +88,7 @@ export default function GroupChat(props) {
                 </button>
             </div>
         </form>
+        
     </div>
   )
 }
