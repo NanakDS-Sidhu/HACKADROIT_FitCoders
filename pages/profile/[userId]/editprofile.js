@@ -1,53 +1,100 @@
 import Sidebar from "@/components/Sidebar";
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { set, useForm } from "react-hook-form";
 import supabase from "@/config/SupabaseConfig";
 const editProfile = () => {
-  const { register, handleSubmit } = useForm();
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  function generateString(length) {
-    let result = " ";
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-
-    return result;
+  const [username, setUsername] = useState("")
+  const [file, setFile] = useState()
+  const [user1, setUser1] = useState("");
+  async function userFetch() {
+    const { data: { user } } = await supabase.auth.getUser()
+    setUser1(user)
   }
-  async function uploadFile(random_string, file) {
-    console.log(file);
-    const { data, error } = await supabase.storage
-      .from("Avatars")
-      .upload(random_string + file[0].name.toString(), file[0], {
-        upsert: false,
-      });
-    if (error) {
-      // Handle error
-      console.log(error);
-    } else {
-      // Handle success
-      console.log("success");
-    }
-  }
-  async function updateProfile(d) {
-    const random_string = generateString(10);
 
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    // uploadFile(random_string, d.avatar);
+  useEffect(() => {
+    userFetch();
+  }, [])
+
+  const handleFile = async (e) => {
+    setFile(e.target.files[0])
+    // console.log(e.target.files[0])
+  }
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+
     const { data, error } = await supabase
-      .from("Profile")
-      .update({
-        username: d.username
-      }) 
-      .eq("User_id", user.id);
+      .from('Profile')
+      .upsert([
+        { User_id: user1.id, Username: username, },
+      ], { upsert: true })
+
+
+    // const avatarFile = event.target.files[0]
+    const { data: AvatarData, error: AvatarError } = await supabase
+      .storage
+      .from('Avatars')
+      .upload('public/avatar1.png', file, {
+        cacheControl: '3600',
+        upsert: false
+      })
+
+
+
     if (error) {
-      console.log(error);
+      console.log(error)
+    } else {
+      console.log();
     }
+
   }
+  // const { register, handleSubmit } = useForm();
+  // const characters =
+  //   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  // function generateString(length) {
+  //   let result = " ";
+  //   const charactersLength = characters.length;
+  //   for (let i = 0; i < length; i++) {
+  //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  //   }
+
+  //   return result;
+  // }
+  // async function uploadFile(random_string, file) {
+  //   console.log(file);
+  //   const { data, error } = await supabase.storage
+  //     .from("Avatars")
+  //     .upload(random_string + file[0].name.toString(), file[0], {
+  //       upsert: false,
+  //     });
+  //   if (error) {
+  //     // Handle error
+  //     console.log(error);
+  //   } else {
+  //     // Handle success
+  //     console.log("success");
+  //   }
+  // }
+  // async function updateProfile(d) {
+  //   const random_string = generateString(10);
+
+  //   const {
+  //     data: { user },
+  //   } = await supabase.auth.getUser();
+  //   // uploadFile(random_string, d.avatar);
+  //   const { data, error } = await supabase
+  //     .from("Profile")
+  //     .update({
+  //       username: d.username
+  //     }) 
+  //     .eq("User_id", user.id);
+  //   if (error) {
+  //     console.log(error);
+  //   }
+  // }
   return (
     <>
       <div className="flex">
@@ -65,7 +112,7 @@ const editProfile = () => {
                   </p>
                   <form
                     class="w-full mt-6 mr-0 mb-0 ml-0 relative space-y-8"
-                    onSubmit={handleSubmit(updateProfile)}
+                    onSubmit={handleSubmit}
                   >
                     <div class="relative">
                       <p
@@ -76,11 +123,13 @@ const editProfile = () => {
                       </p>
                       <input
                         placeholder="John"
+                        value={username}
                         type="text"
                         class="border placeholder-gray-400 focus:outline-none
                   focus:border-black w-full pt-4 pr-4 pb-4 pl-4 mt-2 mr-0 mb-0 ml-0 text-base block bg-white
                   border-gray-300 rounded-md"
-                        {...register("username")}
+                        onChange={(e) => setUsername(e.target.value)}
+                      // {...register("username")}
                       />
                     </div>
 
@@ -122,7 +171,8 @@ const editProfile = () => {
                             id="dropzone-file"
                             type="file"
                             class="hidden"
-                            {...register("avatar")}
+                            onChange={handleFile}
+                          // {...register("avatar")}
                           />
                         </label>
                       </div>

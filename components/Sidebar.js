@@ -4,35 +4,46 @@ import supabase from '@/config/SupabaseConfig';
 
 
 const Sidebar = () => {
-  const [user1,setUser1] = useState("");
-  async function userFetch(){
-    const {data: {user}} = await supabase.auth.getUser()
+  const [user1, setUser1] = useState("");
+  const [userProfile, setProfile] = useState("");
+  async function userFetch() {
+    const { data: { user } } = await supabase.auth.getUser()
     setUser1(user)
   }
+  async function profileFetch() {
 
-  useEffect(()=>{
+    let { data: Profile, error } = await supabase
+      .from('Profile')
+      .select()
+      .eq("User_id", user1.id)
+    setProfile(Profile)
+
+  }
+
+  useEffect(() => {
     userFetch();
-  },[])
+    profileFetch();
+  }, [])
   const router = useRouter()
-  // console.log(router)
+  console.log("Profile",userProfile)
 
   const handleLogout = async () => {
-    
+
     const { error } = await supabase.auth.signOut();
-    if(error){
+    if (error) {
       console.log(error);
-    }else{
+    } else {
       router.push("/")
     }
   }
 
   return (
     <>
-    <div
+      <div
         id="sidebar"
         class="bg-white  h-screen w-1/4  shadow-xl py-10 px-3   overflow-y-hidden transition-transform duration-300 ease-in-out"
         x-show="sidenav"
-       
+
       >
         <div class="space-y-6 md:space-y-10 mt-10">
           <h1 class="font-bold text-4xl text-center md:hidden">
@@ -53,7 +64,7 @@ const Sidebar = () => {
               >
                 Eduard Pantazi
               </h2>
-              <p class="text-xs text-gray-500 text-center">Administrator</p>
+              <p class="text-xs text-gray-500 text-center">{user1.email}</p>
             </div>
           </div>
           <div id="menu" class="flex flex-col px-4 space-y-2">
@@ -92,8 +103,8 @@ const Sidebar = () => {
               </svg>
               <span class="">Chats</span>
             </a>
-            
-            
+
+
             <a
               href={`/profile/${user1.id}/editprofile`}
               class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
@@ -111,24 +122,15 @@ const Sidebar = () => {
               <span class="">Profile</span>
             </a>
 
-            <button onClick={handleLogout}>
-            {/* <a
+            <button className='bg-blue-200 rounded-2xl p-2' onClick={handleLogout}>
+              {/* <a
               href=""
               class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
             > */}
-              <svg
-                class="w-6 h-6 fill-current inline-block"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z"
-                ></path>
-              </svg>
-              <span class="">Logout</span>
               
-            {/* </a> */}
+              <span class="">Logout</span>
+
+              {/* </a> */}
             </button>
           </div>
         </div>
