@@ -18,15 +18,17 @@ const signup = () => {
       password: formData.password.toString()
     })
 
+    
+
 
     const { data: profileData, error: profileError } = await supabase
       .from('Profile')
       .insert([
-        { Username: formData.username, avatar: "" },
+        { Username: formData.username, avatar: "", User_id: "" },
       ])
 
 
-    if (error || profile) {
+    if (error || profileError) {
       console.log(error)
       console.log(profileError)
     } else {
