@@ -11,6 +11,9 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
   return (
     <>     
+    <Head>
+      <title>Soiast | Leveraging Opportunities</title>
+    </Head>
     <Navbar/>
     <section class="bg-white dark:bg-gray-900 mt-20">
         <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">

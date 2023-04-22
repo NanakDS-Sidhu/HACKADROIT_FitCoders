@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import supabase from "@/config/SupabaseConfig";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const signup = () => {
   const router = useRouter()
@@ -41,6 +42,9 @@ const signup = () => {
   
   return (
     <>
+    <Head>
+    <title>Soiast | Sign Up</title>
+  </Head>
       <div className="bg-white relative py-12 lg:py-15">
         <div className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-7xl
       xl:px-5 lg:flex-row">

@@ -1,9 +1,11 @@
+import Head from 'next/head'
 import { useEffect, useState } from "react";
 import supabase from "@/config/SupabaseConfig";
 import { useRouter } from "next/router";
 import { useSession} from '@supabase/auth-helpers-react'
 
 const login = () => {
+  
   const router= useRouter(); 
   const [userInfo, setUserInfo] = useState(null)
   
@@ -44,6 +46,9 @@ const login = () => {
 
   return (
     <>
+    <Head>
+    <title>Soiast | Login</title>
+  </Head>
 <div className="bg-white relative lg:py-15">
   <div className="flex flex-col items-center justify-between pt-0 pr-10 pb-0 pl-10 mt-0 mr-auto mb-0 ml-auto max-w-7xl
       xl:px-5 lg:flex-row">
