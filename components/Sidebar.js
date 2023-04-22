@@ -1,11 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import supabase from '@/config/SupabaseConfig';
 
 const Sidebar = () => {
+    const [user1,setUser1] = useState("");
+    async function userFetch(){
+      const {data: {user}} = await supabase.auth.getUser()
+      setUser1(user)
+    }
+
+    useEffect(()=>{
+      userFetch();
+    })
+
   return (
     <>
     <div
         id="sidebar"
-        class="bg-white  h-screen w-1/3  shadow-xl py-10 px-3   overflow-y-hidden transition-transform duration-300 ease-in-out"
+        class="bg-white  h-screen w-1/4  shadow-xl py-10 px-3   overflow-y-hidden transition-transform duration-300 ease-in-out"
         x-show="sidenav"
        
       >
@@ -49,7 +60,7 @@ const Sidebar = () => {
               <span class="">Dashboard</span>
             </a>
             <a
-              href=""
+              href={"/profile/"+user1.toString()}
               class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
             >
               <svg
@@ -86,7 +97,7 @@ const Sidebar = () => {
               <span class="">Profile</span>
             </a>
             <a
-              href=""
+              href="/profile"
               class="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
             >
               
