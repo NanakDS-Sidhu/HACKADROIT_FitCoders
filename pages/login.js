@@ -20,8 +20,8 @@ const login = () => {
     if(error){
       console.log(error)
     }else{
-      // console.log(data)
-      router.push("/")
+      console.log(data)
+      router.push("/profile/"+data.user.id.toString())
     }
   }
 
