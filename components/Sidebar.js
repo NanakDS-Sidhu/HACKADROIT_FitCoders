@@ -1,10 +1,11 @@
-
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import supabase from '@/config/SupabaseConfig';
 
 
 const Sidebar = () => {
+  const [user1,setUser1] = useState("");
+
   async function userFetch(){
     const {data: {user}} = await supabase.auth.getUser()
     setUser1(user)
