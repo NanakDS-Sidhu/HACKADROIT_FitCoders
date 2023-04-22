@@ -2,12 +2,15 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   return (
     <>     
+    <Navbar/>
     <section class="bg-white dark:bg-gray-900">
         <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
             <div class="mr-auto place-self-center lg:col-span-7">
@@ -157,7 +160,7 @@ export default function Home() {
         </div>
     </section>
 
-    <section class="bg-gray-50 dark:bg-gray-800 dark:bg-gray-800">
+    <section class="bg-gray-50 dark:bg-gray-800">
         <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
             <div class="max-w-screen-lg text-gray-500 sm:text-lg dark:text-gray-400">
                 <h2 class="mb-4 text-4xl font-bold text-gray-900 dark:text-white">Powering innovation at <span class="font-extrabold">200,000+</span> companies worldwide</h2>
@@ -180,8 +183,7 @@ export default function Home() {
             </div>
         </div>
     </section>
-
-    
+    <Footer/>   
     
     <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
 
