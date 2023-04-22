@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import supabase from "@/config/SupabaseConfig";
 import { useRouter } from "next/router";
 
@@ -37,6 +37,8 @@ const signup = () => {
       router.push('/login')
     }
   }
+
+  
   return (
     <>
       <div className="bg-white relative py-12 lg:py-15">
