@@ -19,5 +19,13 @@ A platform for young and passionate changemakers to engage and collaborate. Enga
 * `NEXT JS`
 * `SUPABASE`
 
+## Watch it!
+Demo video showing working of website. Navigating through different sections:
+
+
+https://user-images.githubusercontent.com/114407607/233813820-796fa4b1-c54b-4722-a791-1c5768e27c17.mp4
+
+
+
 ## Known issues
 Work in progress! Working to optimize the website and adding more functionalities 😍
